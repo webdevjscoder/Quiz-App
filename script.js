@@ -48,7 +48,7 @@ const STORE = [
             'Stephen Curry',
             'Lebron James'
         ],
-        answer: 'Stephen Curry',
+        correctAnswer: 'Stephen Curry',
         img: 'https://media.nbcbayarea.com/images/652*368/StephCurryPoint.JPG',
         alt: 'Picture of Stephen Curry'
     },
@@ -60,7 +60,7 @@ const STORE = [
             '1996',
             '1994'
         ],
-        answer: '1996',
+        correctAnswer: '1996',
         img: 'https://www.kstarcountry.com/website/wp-content/uploads/2016/06/1996.jpg',
         alt: 'Image of the numbers 1996'
     },
@@ -72,7 +72,7 @@ const STORE = [
             'Boston Celtics',
             'Miami Heat'
         ],
-        answer: 'Boston Celtics',
+        correctAnswer: 'Boston Celtics',
         img: 'https://images.homedepot-static.com/productImages/f10649b1-73a2-4a69-963d-2d40fd77fae7/svn/green-applied-icon-wall-decals-nbop0203-64_1000.jpg',
         alt: 'Picture of Celtics Logo'
     },
@@ -84,7 +84,7 @@ const STORE = [
             'Kevin Garnett',
             'LeBron James'
         ],
-        answer: 'LeBron James',
+        correctAnswer: 'LeBron James',
         img: 'http://images.performgroup.com/di/library/omnisport/51/a3/james-lebron-usnews-122518-ftr-getty_siuf4a1hwr3012nmvds7ct7ly.jpg?t=-412648713',
         alt: 'Picture of LeBron James'
     },
@@ -96,7 +96,7 @@ const STORE = [
             '2000',
             '2008'
         ],
-        answer: '1992',
+        correctAnswer: '1992',
         img: 'http://www.montana-mint.com/wp-content/uploads/2016/11/1992.jpg',
         alt: 'Image of the numbers 1992'
     },
@@ -108,7 +108,7 @@ const STORE = [
             'Tim Duncan',
             'Wilt Chamberlain'
         ],
-        answer: 'Wilt Chamberlain',
+        correctAnswer: 'Wilt Chamberlain',
         img: 'http://images.performgroup.com/di/library/sporting_news/3/2/wilt-chamberlain-getty-ftr-032516_181cuk1zuprgx12az8w6j7npuj.jpg?t=-1360469973&w=960&quality=70',
         alt: 'Picture of Wilt Chamberlain'
     },
@@ -120,7 +120,7 @@ const STORE = [
             'Michael Jordan',
             'Irvin "Magic" Johnson'
         ],
-        answer: 'Kobe Bryant',
+        correctAnswer: 'Kobe Bryant',
         img: 'https://cdn.theatlantic.com/assets/media/img/mt/2016/04/RTX1XNM3/lead_720_405.jpg?mod=1533691815',
         alt: 'Picture of Kobe Bryant'
     }
@@ -135,27 +135,28 @@ let score = 0;
 function generateQuestion() {
     //Find a way to create questions here
     if (questionNumber < STORE.length) {
-        return `<div class="question-${questionNumber}"
+        return `<div class="question-${questionNumber}">
     <h2>${STORE[questionNumber].question}</h2>
     <form>
     <fieldset>
     <label class="answerOption">
-    <input type="radio" value="${STORE[questionNumber].answers[0]}" name="answer" required>
-    <span>${STORE[questionNumber].answers[0]}</span>
+    <input type="radio" value="${STORE[questionNumber].answers[0]}" name="answer">
+    <span class="answer-choice">${STORE[questionNumber].answers[0]}</span>
     </label>
     <label class="answerOption">
-    <input type="radio" value="${STORE[questionNumber].answers[1]}" name="answer" required>
-    <span>${STORE[questionNumber].answers[1]}</span>
+    <input type="radio" value="${STORE[questionNumber].answers[1]}" name="answer">
+    <span class="answer-choice">${STORE[questionNumber].answers[1]}</span>
     </label>
     <label class="answerOption">
-    <input type="radio" value="${STORE[questionNumber].answers[2]}" name="answer" required>
-    <span>${STORE[questionNumber].answers[2]}</span>
+    <input type="radio" value="${STORE[questionNumber].answers[2]}" name="answer">
+    <span class="answer-choice">${STORE[questionNumber].answers[2]}</span>
     </label>
     <label class="answerOption">
-    <input type="radio" value="${STORE[questionNumber].answers[3]}" name="answer" required>
-    <span>${STORE[questionNumber].answers[3]}</span>
+    <input type="radio" value="${STORE[questionNumber].answers[3]}" name="answer">
+    <span class="answer-choice">${STORE[questionNumber].answers[3]}</span>
     </label>
     </fieldset>
+    <button class="submit-answer" type="button">Submit</button>
     </form>
     </div>`;
     } else {
@@ -164,6 +165,19 @@ function generateQuestion() {
         $('.questionNumber').text(10)
     }
 }
+
+//Didn't need this function
+//was overriding my previous
+//function userSelectAnswer()
+/*function submitAnswer() {
+  console.log('adding handler')
+  $('.submit-answer').on('click', function(event) {
+        console.log('something happened');
+        userAnswerFeedbackCorrect();
+        userAnswerFeedbackWrong();
+        userSelectAnswer();
+  });
+}*/
 
 //increment question number
 function changeQuestionNumber() {
@@ -178,10 +192,13 @@ function changeScore() {
 
 //start quiz
 function startQuiz() {
-    $('.mid-text').on('click', '.quiz-start', function (event) {
+    $('.mid-text').on('click', '.start-quiz', function (event) {
         $('.mid-text').remove();
         $('.question-answer-form').css('display', 'block');
         $('.questionNumber').text(1);
+        renderQuestion();
+        userSelectAnswer();
+        renderNextQuestion();
     });
 }
 
@@ -191,7 +208,7 @@ function renderQuestion() {
 }
 
 function userSelectAnswer () {
-    $('form').on('submit', function (event) {
+    $('.submit-answer').on('click', function (event) {
         event.preventDefault();
         let selected = $('input:checked');
         let answer = selected.val();
@@ -217,13 +234,13 @@ function ifAnswerIsWrong () {
 
 function userAnswerFeedbackCorrect () {
     let correctAnswer = `${STORE[questionNumber].correctAnswer}`;
-    $('.question-answer-form').html(`<div class="correctFeedback"><div class="img"><img src="${STORE[questionNumber].img}" alt="${STORE[questionNumber].alt}"/></div><p><b>You got it right!</b></p><button type=button class="nextButton">Next</button></div>`);
+    $('.question-answer-form').html(`<div class="correctFeedback"><div class="img"><img src="${STORE[questionNumber].img}" alt="${STORE[questionNumber].alt}"/></div><p class="correct"><b>You got it right!</b></p><button type=button class="nextButton">Next</button></div>`);
 }
 
 function userAnswerFeedbackWrong () {
     let correctAnswer = `${STORE[questionNumber].correctAnswer}`;
     // let img = `${STORE[questionNumber].img}`;
-    $('.question-answer-form').html(`<div class="correctFeedback"><div class="img"><img src="${STORE[questionNumber].img}" alt="${STORE[questionNumber].alt}"/></div><p><b>You got it wrong</b><br>the correct answer is <span>"${correctAnswer}"</span></p><button type=button class="nextButton">Next</button></div>`);
+    $('.question-answer-form').html(`<div class="correctFeedback"><div class="img"><img src="${STORE[questionNumber].img}" alt="${STORE[questionNumber].alt}"/></div><p class="wrong"><b>You got it wrong</b><br>the correct answer is <span>"${correctAnswer}"</span></p><button type=button class="nextButton">Next</button></div>`);
 }
 
 function updateScore () {
@@ -233,16 +250,17 @@ function updateScore () {
 
 function renderResults () {
     if (score >= 8) {
-        $('.question-answer-form').html(`<div class="results correctFeedback"><h3>You're on fire!</h3><img src="https://cbsbaltimore.files.wordpress.com/2013/05/168129357.jpg?w=1024&h=576&crop=1" alt="mvp trophy"/><p>You got ${score} / 10</p><p>You are the real MVP!</p><button class="restartButton">Restart Quiz</button></div>`);
+        $('.question-answer-form').html(`<div class="img"><img src="https://cbsbaltimore.files.wordpress.com/2013/05/168129357.jpg?w=1024&h=576&crop=1" alt="mvp trophy"/><div class="finalResult"><p>You got ${score} / 10</p><p>You are the real MVP!</p><div><button type="button"class="restartButton">Restart Quiz</button></div></div>`);
     } else if (score < 8 && score >= 5) {
-        $('.question-answer-form').html(`<div class="results correctFeedback"><h3>Almost there!</h3><img src="https://imagesvc.timeincapp.com/v3/fan/image?url=https://thunderousintentions.com/wp-content/blogs.dir/157/files/2016/09/9289203-stephen-curry-nba-stephen-curry-mvp-press-conference.jpg&c=sc&w=850&h=566" alt="Curry standing next to two mvp awards"/><p>You got ${score} / 10</p><p>You almost got one of these!</p><button class="restartButton">Restart Quiz</button></div>`);
+        $('.question-answer-form').html(`<div class="img"><img src="https://imagesvc.timeincapp.com/v3/fan/image?url=https://thunderousintentions.com/wp-content/blogs.dir/157/files/2016/09/9289203-stephen-curry-nba-stephen-curry-mvp-press-conference.jpg&c=sc&w=850&h=566" alt="Curry standing next to two mvp awards"/><div class="finalResult"><p>You got ${score} / 10</p><p>You almost got one of these!</p></div><div><button type="button" class="restartButton">Restart Quiz</button></div></div>`);
     } else {
-        $('.question-answer-form').html(`<div class="results correctFeedback"><h3>You might want to stick with car camping</h3><img src="https://images.complex.com/complex/image/upload/c_limit,w_680/fl_lossy,pg_1,q_auto/ccfwgvvfzrrlhno2fb0c.jpg" alt="Jordan crying"/><p>You got ${score} / 10</p><p>With a little more studying of NBA history you will be a real MVP</p><button class="restartButton">Restart Quiz</button></div>`);
+        $('.question-answer-form').html(`<div class="img"><img src="https://images.complex.com/complex/image/upload/c_limit,w_680/fl_lossy,pg_1,q_auto/ccfwgvvfzrrlhno2fb0c.jpg" alt="Jordan crying"/><div class="finalResult"><p>You got ${score} / 10</p><p>With a little more studying of NBA history you will be a real MVP</p></div><div><button type="button" class="restartButton">Restart Quiz</button></div></div>`);
     }
 }
 
 function renderNextQuestion () {
-    $('main').on('click', '.nextButton', function (event) {
+    $('body').on('click', '.nextButton', function (event) {
+        console.log('you clicked me')
         changeQuestionNumber();
         renderQuestion();
         userSelectAnswer();
@@ -250,16 +268,16 @@ function renderNextQuestion () {
 }
 
 function restartQuiz () {
-    $('section').on('click', '.restartButton', function (event) {
+    $('body').on('click', '.restartButton', function (event) {
         location.reload();
     });
 }
 
 function createQuiz () {
     startQuiz();
-    renderQuestion();
-    userSelectAnswer();
-    renderNextQuestion();
+    // renderQuestion();
+    // userSelectAnswer();
+    // renderNextQuestion();
 }
 
 $(createQuiz);

@@ -25,7 +25,7 @@ body {
 .question-tracker ul {
     padding: 10px;
     margin: 20px 0;
-    background: rgba(22, 155, 192, 0.8);
+    background-color: #163e7c;
 }
 
 .question-stats {
@@ -38,8 +38,8 @@ body {
 
 p {
     text-align: center;
-    background: rgba(22, 155, 192, 0.8);
     padding: 10px;
+    background-color: #387AAF;
     width: 80%;
     margin: 0 auto;
     font-size: 25px;
@@ -48,12 +48,15 @@ p {
 
 .question {
     margin: 20px auto;
+    background-color: #3866AF;
+
 }
 
 button[type="button"] {
     width: 175px;
     height: 75px;
     border: none;
+    border-radius: 2px;
     text-align: center;
     background: red;
     font-size: 25px;
@@ -64,5 +67,100 @@ button[type="button"] {
 }
 
 .start-quiz {
+    display: block;
+}
+
+h2 {
+    margin: 10px auto;
+    font-size: 30px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+button:hover, button:focus {
+    background: green;
+    box-shadow: 0 0 8px 0;
+    transition: 0.5s;
+}
+
+.submit-answer, .nextButton {
+    display: block;
+}
+
+.correct {
+    background: rgb(20, 109, 9);
+    margin: 10px auto;
+}
+
+.wrong {
+    background: rgb(219, 8, 8);
+    margin: 10px auto;
+}
+
+.answerOption {
+    font-size: 20px;
+    width: 80%;
+    margin: 10px auto;
+}
+
+fieldset {
+    border: none;
+}
+
+label:nth-child(1) {
+    background-color: #3866AF;
+}
+
+label:nth-child(2) {
+    background-color: #387AAF;
+}
+
+label:nth-child(3) {
+    background-color: #3894AF;
+}
+
+label:nth-child(4) {
+    background-color: #38A9AF;
+}
+
+label:hover, label:focus {
+    background-color: #072659;
+}
+
+label {
+    padding: 20px;
+    margin-bottom: 10px;
+    display: flex;
+    cursor: pointer;
+    line-height: 22px
+}
+
+input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #ffffff;
+    transition: 0.2s all linear;
+    outline: none;
+    margin-right: 20px;
+    position: relative;
+    top: 2px;
+}
+
+input:checked {
+    border: 8px solid #d61111;
+}
+
+.img {
+    width: 60%;
+    height: auto;
+    margin: 0 auto;
+}
+
+.restartButton {
+    margin: 50px auto;
     display: block;
 }
